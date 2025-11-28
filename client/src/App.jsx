@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router";
 
 import Footer from "./components/footer/Footer.jsx"
 import Header from "./components/header/Header.jsx"
-import Home from "./components/home/Home.jsx"
+import Home from "./components/home/home.jsx";
 import Catalog from "./components/catalog/Catalog.jsx"
 
 function App() {
@@ -16,7 +16,6 @@ function App() {
         <Route path='/games' element={<Catalog />} />
       </Routes>
 
-      <Home />
       <Footer />
     </>
 
