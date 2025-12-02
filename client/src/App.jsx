@@ -8,14 +8,33 @@ import Details from "./components/details/Details.jsx";
 import GameCreate from "./components/game-create/GameCreate.jsx";
 import Register from "./components/register/Register.jsx";
 import { useState } from "react";
+import Login from "./components/login/Login.jsx";
 
 function App() {
+  const [registeredUsers, setRegisteredUsers] = useState([]);
   const [user, setUser] = useState(null);
 
-  const registerHandler = (email) => {
+  const registerHandler = (email, password) => {
+    if (registeredUsers.some(user => user.email === email)) {
+      throw new Error("Email is taken");
+    }
+
+    setRegisteredUsers(state => [...state, {email, password}]);
+
     setUser({
-      email
+      email,
+      password
     });
+  }
+
+  const loginHandler = (email, password) => {
+    const user = registeredUsers.find(u => u.email === email && u.password === password);
+
+    if (!user) {
+      throw new Error("No such user!");
+    }
+
+    setUser(user);
   }
 
   return (
@@ -27,7 +46,8 @@ function App() {
         <Route path='/games' element={<Catalog />} />
         <Route path="/games/:gameId/details" element={<Details />} />
         <Route path="/games/create" element={<GameCreate />} />
-        <Route path="/register" element={<Register user={user} onRegister={registerHandler}/>} />
+        <Route path="/register" element={<Register onRegister={registerHandler}/>} />
+        <Route path="/login" element={ <Login onLogin={loginHandler} /> } />
       </Routes>
 
       <Footer />

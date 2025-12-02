@@ -1,6 +1,10 @@
+import { useNavigate } from "react-router";
+
 export default function Register({
     user, onRegister
 }) {
+    const navigate = useNavigate();
+
     const registerSubmit = (formData) => {
         const email = formData.get('email');
         const password = formData.get('password');
@@ -15,7 +19,14 @@ export default function Register({
             return alert('Password missmatch!');
         }
 
-        onRegister(email);
+        try {
+            onRegister(email, password);
+
+            navigate('/')
+        } catch (error) {
+            alert(error.message)
+        }
+
     }
     return (
         <section id="register-page" className="content auth">
