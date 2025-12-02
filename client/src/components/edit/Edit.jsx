@@ -1,4 +1,24 @@
+import { useState } from "react"
+
 export default function Edit() {
+    const initialValues = {
+        title: '',
+        genre: '',
+        players: '',
+        date: '',
+        imageUrl: '',
+        summary: ''
+    }
+
+    const [values, setValues] = useState(initialValues);
+
+    const changeHandler = (e) => {
+        setValues(state => ({
+            ...state,
+            [e.target.name]: e.target.value
+        }));
+    }
+
     return (
         <section id="edit-page">
             <form id="add-new-game">
@@ -9,8 +29,10 @@ export default function Edit() {
                         <input
                             type="text"
                             id="gameName"
-                            name="gameName"
+                            name="name"
                             placeholder="Enter game title..."
+                            onChange={changeHandler}
+                            value={values.title}
                         />
                     </div>
                     <div className="form-group-half">
@@ -20,6 +42,8 @@ export default function Edit() {
                             id="genre"
                             name="genre"
                             placeholder="Enter game genre..."
+                            onChange={changeHandler}
+                            value={values.genre}
                         />
                     </div>
                     <div className="form-group-half">
@@ -27,14 +51,22 @@ export default function Edit() {
                         <input
                             type="number"
                             id="activePlayers"
-                            name="activePlayers"
+                            name="players"
                             min={0}
                             placeholder={0}
+                            onChange={changeHandler}
+                            value={values.players}
                         />
                     </div>
                     <div className="form-group-half">
                         <label htmlFor="releaseDate">Release Date:</label>
-                        <input type="date" id="releaseDate" name="releaseDate" />
+                        <input 
+                            type="date" 
+                            id="releaseDate" 
+                            name="date"
+                            onChange={changeHandler}
+                            value={values.date}
+                        />
                     </div>
                     <div className="form-group-full">
                         <label htmlFor="imageUrl">Image URL:</label>
@@ -43,6 +75,8 @@ export default function Edit() {
                             id="imageUrl"
                             name="imageUrl"
                             placeholder="Enter image URL..."
+                            onChange={changeHandler}
+                            value={values.imageUrl}
                         />
                     </div>
                     <div className="form-group-full">
@@ -52,10 +86,12 @@ export default function Edit() {
                             id="summary"
                             rows={5}
                             placeholder="Write a brief summary..."
-                            defaultValue={""}
+                           
+                            onChange={changeHandler}
+                            value={values.summary}
                         />
                     </div>
-                    <input className="btn submit" type="submit" defaultValue="EDIT GAME" />
+                    <input className="btn submit" type="submit" value="EDIT GAME" />
                 </div>
             </form>
         </section>
