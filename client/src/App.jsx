@@ -13,24 +13,30 @@ import Logout from "./components/logout/Logout.jsx";
 import Edit from "./components/edit/Edit.jsx";
 
 function App() {
-  const [registeredUsers, setRegisteredUsers] = useState([]);
   const [user, setUser] = useState(null);
 
-  const registerHandler = (email, password) => {
-    if (registeredUsers.some(user => user.email === email)) {
-      throw new Error("Email is taken");
-    }
+  const registerHandler = async (email, password) => {
 
     const newUser = { email, password };
 
-    setRegisteredUsers(state => [...state, {email, password}]);
+    const response = await fetch('http://localhost:3030/users/register', {
+      method: 'post',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(newUser)
+    });
+
+    const result = await response.json();
+
+    console.log(result);
+    
 
     setUser(newUser);
   }
 
   const loginHandler = (email, password) => {
-    const user = registeredUsers.find(u => u.email === email && u.password === password);
-
+    
     if (!user) {
       throw new Error("No such user!");
     }

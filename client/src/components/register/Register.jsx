@@ -9,9 +9,6 @@ export default function Register({
     const registerHandler = (values) => {
         const { email,password,confirmPassword } = values;
 
-        console.log(email, password, confirmPassword);
-        
-
         // Validation
         if (!email || !password) {
             return alert('Email and password are required')
@@ -33,6 +30,8 @@ export default function Register({
     const {
         register,
         formAction,
+        changeHandler,
+        values
     } = useForm(registerHandler, {
         email: '',
         password: '',
@@ -63,7 +62,7 @@ export default function Register({
                     <input
                         type="password"
                         id="confirmPassword"
-                        {...register('confirmPassword')}
+                        {...register('password')}
                         placeholder="Repeat Password"
                     />
                     <input className="btn submit" type="submit" defaultValue="Register" />

@@ -10,9 +10,10 @@ export default function useForm(callback, inititalValues) {
         }));
     }
 
-    const formAction = async (formData) => {
-        await callback(values, formData);
-    }
+    const formAction = async (e) => {
+        e.preventDefault();        // IMPORTANT FIX
+        await callback(values);
+    };
 
     const register = (fieldName) => {
         return {
