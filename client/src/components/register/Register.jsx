@@ -1,14 +1,16 @@
 import { useNavigate } from "react-router";
+import useForm from "../../hooks/useForm.js";
 
 export default function Register({
     user, onRegister
 }) {
     const navigate = useNavigate();
 
-    const registerSubmit = (formData) => {
-        const email = formData.get('email');
-        const password = formData.get('password');
-        const confirmPassword = formData.get('confirm-password');
+    const registerHandler = (values) => {
+        const { email,password,confirmPassword } = values;
+
+        console.log(email, password, confirmPassword);
+        
 
         // Validation
         if (!email || !password) {
@@ -26,28 +28,42 @@ export default function Register({
         } catch (error) {
             alert(error.message)
         }
-
     }
+
+    const {
+        register,
+        formAction,
+    } = useForm(registerHandler, {
+        email: '',
+        password: '',
+        'confirmPassword': ''
+    })
+
     return (
         <section id="register-page" className="content auth">
-            <form id="register" action={registerSubmit}>
+            <form id="register" action={registerHandler}>
                 <div className="container">
                     <div className="brand-logo" />
                     <h1>Register</h1>
                     <label htmlFor="email">Email:</label>
-                    <input type="email" id="email" name="email" placeholder="Your Email" />
+                    <input 
+                        type="email" 
+                        id="email" 
+                        {...register('email')}
+                        placeholder="Your Email" />
                     <label htmlFor="pass">Password:</label>
                     <input
                         type="password"
-                        name="password"
+                        
                         id="register-password"
                         placeholder="Password"
+                        {...register('password')}
                     />
                     <label htmlFor="con-pass">Confirm Password:</label>
                     <input
                         type="password"
-                        name="confirm-password"
-                        id="confirm-password"
+                        id="confirmPassword"
+                        {...register('confirmPassword')}
                         placeholder="Repeat Password"
                     />
                     <input className="btn submit" type="submit" defaultValue="Register" />
