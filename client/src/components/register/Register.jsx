@@ -1,12 +1,15 @@
 import { useNavigate } from "react-router";
 import useForm from "../../hooks/useForm.js";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext.jsx";
 
-export default function Register({
-    user, onRegister
-}) {
+export default function Register() {
+
     const navigate = useNavigate();
 
-    const registerHandler = (values) => {
+    const {registerHandler} = useContext(UserContext);
+
+    const registerSubmitHandler = async (values) => {
         const { email,password,confirmPassword } = values;
 
         // Validation
@@ -19,7 +22,7 @@ export default function Register({
         }
 
         try {
-            onRegister(email, password);
+           await registerHandler(email, password);
 
             navigate('/')
         } catch (error) {
@@ -29,18 +32,16 @@ export default function Register({
 
     const {
         register,
-        formAction,
-        changeHandler,
-        values
-    } = useForm(registerHandler, {
+        formAction,s
+    } = useForm(registerSubmitHandler, {
         email: '',
         password: '',
-        'confirmPassword': ''
+        confirmPassword: ''
     })
 
     return (
         <section id="register-page" className="content auth">
-            <form id="register" action={registerHandler}>
+            <form id="register" action={formAction}>
                 <div className="container">
                     <div className="brand-logo" />
                     <h1>Register</h1>
@@ -62,7 +63,7 @@ export default function Register({
                     <input
                         type="password"
                         id="confirmPassword"
-                        {...register('password')}
+                        {...register('confirmPassword')}
                         placeholder="Repeat Password"
                     />
                     <input className="btn submit" type="submit" defaultValue="Register" />

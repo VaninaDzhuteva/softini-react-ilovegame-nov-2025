@@ -11,7 +11,6 @@ export default function useForm(callback, inititalValues) {
     }
 
     const formAction = async (e) => {
-        e.preventDefault();        // IMPORTANT FIX
         await callback(values);
     };
 

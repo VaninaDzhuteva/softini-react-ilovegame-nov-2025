@@ -7,47 +7,15 @@ import Catalog from "./components/catalog/Catalog.jsx"
 import Details from "./components/details/Details.jsx";
 import GameCreate from "./components/game-create/GameCreate.jsx";
 import Register from "./components/register/Register.jsx";
-import { useState } from "react";
+
 import Login from "./components/login/Login.jsx";
 import Logout from "./components/logout/Logout.jsx";
 import Edit from "./components/edit/Edit.jsx";
+import UserContext from "./contexts/UserContext.jsx";
+import { useContext } from "react";
 
 function App() {
-  const [user, setUser] = useState(null);
-
-  const registerHandler = async (email, password) => {
-
-    const newUser = { email, password };
-
-    const response = await fetch('http://localhost:3030/users/register', {
-      method: 'post',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(newUser)
-    });
-
-    const result = await response.json();
-
-    console.log(result);
-    
-
-    setUser(newUser);
-  }
-
-  const loginHandler = (email, password) => {
-    
-    if (!user) {
-      throw new Error("No such user!");
-    }
-
-    setUser(user);
-  }
-
-  const logoutHandler = () => {
-    setUser(null);
-  }
-
+  const {user} = useContext(UserContext);
   return (
     <>
       <Header user={user} />
@@ -58,9 +26,9 @@ function App() {
         <Route path="/games/:gameId/details" element={<Details user={user} />} />
         <Route path="/games/:gameId/edit" element={<Edit />} />
         <Route path="/games/create" element={<GameCreate />} />
-        <Route path="/register" element={<Register onRegister={registerHandler}/>} />
-        <Route path="/login" element={ <Login onLogin={loginHandler} /> } />
-        <Route path="/logout" element={<Logout onLogout={logoutHandler} />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={ <Login /> } />
+        <Route path="/logout" element={<Logout />} />
       </Routes>
 
       <Footer />
